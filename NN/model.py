@@ -15,16 +15,16 @@ import sys
 #
 # example:      generate((144, 144, 3), 'conv1d')
 
-def generate(shape, option="flatten"):
+def generate(shape=(144, 144, 3), option="flatten"):
     visible = Input(shape=shape)
 
-    conv1 = Conv2D(64, kernel_size=2, activation='relu')(visible)
+    conv1 = Conv2D(64, kernel_size=5, activation='relu', padding='same')(visible)
     pool1 = MaxPooling2D(pool_size=(2, 2))(conv1)
 
-    conv2 = Conv2D(32, kernel_size=2, activation='relu')(pool1)
+    conv2 = Conv2D(32, kernel_size=3, activation='relu', padding='same')(pool1)
     pool2 = MaxPooling2D(pool_size=(2, 2))(conv2)
 
-    conv3 = Conv2D(16, kernel_size=2, activation='relu')(pool2)
+    conv3 = Conv2D(16, kernel_size=3, activation='relu', padding='same')(pool2)
     pool3 = MaxPooling2D(pool_size=(2, 2))(conv3)
 
     # way 1 to flatten - many params
@@ -33,7 +33,7 @@ def generate(shape, option="flatten"):
 
     # way 2 to flatten - less params
     elif option == 'conv1d':
-        conv4 = Conv1D(128, kernel_size=2, activation='relu')(pool3)
+        conv4 = Conv1D(128, kernel_size=3, activation='relu', padding='same')(pool3)
         flat  = MaxPooling2D(pool_size=(conv4.shape[1], conv4.shape[2]))(conv4)
 
     # mentioned method doesn't exist
