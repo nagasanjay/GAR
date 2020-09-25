@@ -1,6 +1,7 @@
 # necessary imports
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Flatten, Conv2D, Conv1D, MaxPooling2D
+from tensorflow.keras.utils import plot_model
 import sys
 
 # generate a model for given input size
@@ -48,3 +49,7 @@ def generate(shape=(144, 144, 3), option="flatten"):
 
     model = Model(inputs=visible, outputs=[output1, output2])
     return model
+
+model = generate()
+model.summary()
+plot_model(model, show_shapes=True)
