@@ -44,10 +44,14 @@ def generate(shape=(144, 144, 3), option="flatten"):
 
     hidden1 = Dense(32, activation='relu')(flat)
 
+    # throttle
     output1 = Dense(1, activation='linear')(hidden1)
+    # break
     output2 = Dense(1, activation='linear')(hidden1)
+    # steering
+    output3 = Dense(1, activation='linear')(hidden1)
 
-    model = Model(inputs=visible, outputs=[output1, output2])
+    model = Model(inputs=visible, outputs=[output1, output2, output3])
     return model
 
 model = generate()
