@@ -1,0 +1,5 @@
+dataset\\*.csv
+dataset\\*.npz
+dataset\\images\\*
+NN\\checkpoint\\*
+model\\*
