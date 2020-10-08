@@ -26,5 +26,14 @@ images_train, images_test, signals_train, signals_test = train_test_split(
 
 model = generate(shape=images[0].shape, flatten="conv1d")
 model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
-history = model.fit(images_train, signals_train, epochs=EPOCHS,
+history = model.fit(images_train, signals_train, epochs=EPOCHS, batch_size=BATCH_SIZE
             validation_data=(images_test, signals_test))
+
+plt.plot(history.history['accuracy'], label='accuracy')
+plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.5, 1])
+plt.legend(loc='lower right')
+
+test_loss, test_acc = model.evaluate(images_test,  signals_test, verbose=2)
