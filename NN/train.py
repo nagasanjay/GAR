@@ -1,7 +1,8 @@
+import numpy
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import argparse
-from helper import load_images, load_signals, norm_img
+from helper import load_input, load_output, norm_img
 from nn import generate
 from sklearn.model_selection import train_test_split
 import os
@@ -14,21 +15,19 @@ parser.add_argument("-p", "--path", help="dataset path", default="dataset")
 args = parser.parse_args()
 
 DATASET_BASE_PATH = args.path
-DATASET_IMAGES = DATASET_BASE_PATH + "\images\\"
-DATASET_SIGNALS = DATASET_BASE_PATH + "\signals.csv"
+DATASET_IMAGES = DATASET_BASE_PATH + "/"
+DATASET_SIGNALS = DATASET_BASE_PATH + "/dataset.csv"
 
-images = load_images(DATASET_IMAGES, DATASET_SIGNALS)
-images = norm_img(images)
-signals = load_signals(DATASET_SIGNALS)
+images, speed = load_input(DATASET_IMAGES, DATASET_SIGNALS)
+output = load_output(DATASET_SIGNALS)
 
-images_train, images_test, signals_train, signals_test = train_test_split(images, signals, test_size=0.33)
+print(len(images[0]))
+images = numpy.asarray(images)
+print(images.shape)
+speed = numpy.asarray(images)
+output = numpy.asarray(output)
 
-train_dataset = tf.data.Dataset.from_tensor_slices((images_train, signals_train))
-train_dataset = train_dataset.batch(BATCH_SIZE)
-test_dataset = tf.data.Dataset.from_tensor_slices((images_test, signals_test))
-test_dataset = test_dataset.batch(BATCH_SIZE)
-
-model = generate(shape=images[0].shape, flatten="conv1d")
+model = generate(shape=(144, 144, 1), flatten="conv1d")
 model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
 
 checkpoint_path = "NN/checkpoint/cp.ckpt"
@@ -36,8 +35,7 @@ checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path, save_weights_only=True,
                                                  verbose=1, save_freq = 2)
 
-history = model.fit(train_dataset, epochs=EPOCHS,
-            validation_data=test_dataset, callbacks=[cp_callback])
+history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, validation_split=0.33, callbacks=[cp_callback])
 
 print(model.metrics_names)
 print(history.history.keys())

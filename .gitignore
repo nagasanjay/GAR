@@ -1,5 +1,4 @@
-dataset\\*.csv
-dataset\\*.npz
-dataset\\images\\*
-NN\\checkpoint\\*
-model\\*
+dataset/*.png
+dataset/test/*.png
+_dataset/*
+_dataset/images/*

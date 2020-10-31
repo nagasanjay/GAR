@@ -16,7 +16,7 @@ import sys
 #
 # example:      generate((144, 144, 3), 'conv1d')
 
-def generate(shape=(144, 144, 3), flatten="flatten"):
+def generate(shape=(144, 144, 1), flatten="flatten"):
     visible = Input(shape=shape)
 
     conv1 = Conv2D(64, kernel_size=5, activation='relu', padding='same')(visible)
