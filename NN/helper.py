@@ -21,7 +21,8 @@ def load_output(filename):
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             signals.append(list(map(lambda x : float(x), row[1:4])))
-
+    signals = np.array(signals)
+    signals[:, 1] = (signals[:, 1]+1)/2
     return signals
 
 

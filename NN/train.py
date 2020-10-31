@@ -33,9 +33,10 @@ model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
 checkpoint_path = "NN/checkpoint/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path, save_weights_only=True,
-                                                 verbose=1, save_freq = 2)
+                                                 verbose=1, save_freq = 32)
 
 history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, validation_split=0.33, callbacks=[cp_callback])
+model.save("model")
 
 print(model.metrics_names)
 print(history.history.keys())
@@ -59,5 +60,3 @@ plt.plot(epochs_range, val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
-
-model.save("model")
