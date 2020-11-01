@@ -16,13 +16,17 @@ import cv2
 
 def load_output(filename):
     signals = []
-
+    i = 0
     with open(BASE_PATH + filename) as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
-            signals.append(list(map(lambda x : float(x), row[1:4])))
+            signals.append(list(map(lambda x : float(x), row[2:5])))
+            #i += 1
+            #if i == 10:
+                #break
     signals = np.array(signals)
     signals[:, 1] = (signals[:, 1]+1)/2
+    signals = map(lambda x: 0.0 if x[-1] < 0.5 else 1.0, signals)
     return signals
 
 
@@ -32,13 +36,13 @@ def open_and_reshape (fname):
     #print(fname)
     img = cv2.imread(fname)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    edges = cv2.Canny(img,70,100)
+    img = cv2.Canny(img,70,100)
 
-    height, width = edges.shape[:2]
+    height, width = img.shape[:2]
 
     start_row, start_col = int(height * .5), int(0)
     end_row, end_col = int(height), int(width)
-    cropped = edges[start_row:end_row , start_col:end_col]
+    cropped = img[start_row:end_row , start_col:end_col]
 
     width = 144
     height = 144 
@@ -51,12 +55,15 @@ def open_and_reshape (fname):
 def load_input (path, filename):
     images = []
     speed = []
-
+    i = 0
     with open(BASE_PATH + filename) as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             speed.append(float(row[1]))
             images.append(norm_img(open_and_reshape(BASE_PATH + path + row[0])))
+            #i += 1
+            #if i == 10:
+                #break
 
     return (images, speed)
 

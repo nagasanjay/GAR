@@ -1,4 +1,6 @@
+from re import VERBOSE
 import numpy
+from numpy.lib.shape_base import expand_dims
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import argparse
@@ -28,30 +30,38 @@ speed = numpy.asarray(speed)
 print('normalizing by ', speed.max()- speed.min()+1)
 speed = speed/(speed.max()- speed.min()+1)
 print(speed.shape)
-output = numpy.asarray(output)
+output = expand_dims(numpy.asarray(output),axis=1)
+print(output.shape)
+print(type(output[0]), type(output), type(output))
+
+print(images[0])
+print(speed[0:10])
+print(output[0:10])
 
 model = generate(shape=(144, 144, 1))
-model.compile(optimizer='adam', loss=['mse', 'mse', 'mse'], metrics=['accuracy'], loss_weights=[1.0, 1.0, 1.0])
+model.summary()
+model.compile(optimizer='Adam', loss='mse', metrics=['accuracy'])
 
 checkpoint_path = "NN/checkpoint/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path, save_weights_only=True,
                                                  verbose=1, save_freq = BATCH_SIZE)
 
-history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, batch_size=BATCH_SIZE, 
+history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, batch_size=BATCH_SIZE, verbose=True, 
                 validation_split=0.33, callbacks=[cp_callback])
 model.save("model")
 
 print(model.metrics_names)
 print(history.history.keys())
+'''
 plt.figure(figsize=(15, 4))
-acc = history.history['dense_1_accuracy']
-val_acc = history.history['val_dense_1_accuracy']
+acc = history.history['dense_2_accuracy']
+val_acc = history.history['val_dense_2_accuracy']
 
-loss=history.history['dense_1_loss']
-val_loss=history.history['val_dense_1_loss']
+loss=history.history['dense_2_loss']
+val_loss=history.history['val_dense_2_loss']
 
-epochs_range = range(EPOCHS)
+epochs_range = range(10)
 plt.subplot(1, 2, 1)
 plt.plot(epochs_range, acc, label='Training Accuracy')
 plt.plot(epochs_range, val_acc, label='Validation Accuracy')
@@ -65,3 +75,13 @@ plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
 plt.savefig('plot.png')
+'''
+
+data = [0, 429, 545, 811, 915, 921, 969, 1305, 1445, 3678]
+
+for d in data:
+    print('-------------------------------------------------')
+    image = expand_dims(images[d], axis=0)
+    spee = expand_dims(speed[d], axis=0)
+    print(model.predict([image, spee]))
+    print(output[0])

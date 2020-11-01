@@ -2,6 +2,7 @@
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, Flatten, Conv2D, Conv1D, MaxPooling2D
 from tensorflow.keras.utils import plot_model
+import tensorflow as tf
 import sys
 
 from tensorflow.python.keras.backend import concatenate
@@ -51,14 +52,15 @@ def generate(shape=(144, 144, 1), option="flatten"):
 
     concat = concatenate([speed, flat])
 
-    hidden1 = Dense(32, activation='relu')(concat)
+    hidden1 = Dense(512, activation='relu')(concat)
+    hidden2 = Dense(128, activation='relu')(hidden1)
 
     # throttle
-    output1 = Dense(1, activation='linear')(hidden1)
+    output1 = Dense(3)(hidden2)
     # break
-    output2 = Dense(1, activation='linear')(hidden1)
+    #output2 = Dense(1, activation='sigmoid')(hidden2)
     # steering
-    output3 = Dense(1, activation='linear')(hidden1)
+    #output3 = Dense(1, activation='sigmoid')(hidden2)
 
-    model = Model(inputs=[visible, speed], outputs=[output1, output2, output3])
+    model = Model(inputs=[visible, speed], outputs=output1)
     return model
