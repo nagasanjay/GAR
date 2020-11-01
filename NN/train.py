@@ -11,11 +11,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from config import EPOCHS, BATCH_SIZE
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--path", help="dataset path", default="_dataset")
+parser.add_argument("-p", "--path", help="dataset path", default="dataset")
 args = parser.parse_args()
 
 DATASET_BASE_PATH = args.path
-DATASET_IMAGES = DATASET_BASE_PATH + "/images/"
+DATASET_IMAGES = DATASET_BASE_PATH + "/"
 DATASET_SIGNALS = DATASET_BASE_PATH + "/dataset.csv"
 
 images, speed = load_input(DATASET_IMAGES, DATASET_SIGNALS)
