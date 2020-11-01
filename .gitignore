@@ -2,3 +2,10 @@ dataset/*.png
 dataset/test/*.png
 _dataset/*
 _dataset/images/*
+plot.png
+NN/checkpoint/*
+__pycache__/*
+model/*
+model/variables/*
+NN/__pycache__/*
+NN/checkpoint/*
