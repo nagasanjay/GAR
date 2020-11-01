@@ -25,17 +25,20 @@ print(len(images[0]))
 images = numpy.asarray(images)
 print(images.shape)
 speed = numpy.asarray(images)
+speed = speed/(speed.max()- speed.min()+1)
+print('normalized by ', speed.max()- speed.min()+1)
 output = numpy.asarray(output)
 
-model = generate(shape=(144, 144, 1), flatten="conv1d")
-model.compile(optimizer='adam', loss='mse', metrics=['accuracy'])
+model = generate(shape=(144, 144, 1))
+model.compile(optimizer='adam', loss=['mse', 'mse'], metrics=['accuracy'], loss_weights=[1.0, 1.0])
 
 checkpoint_path = "NN/checkpoint/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path, save_weights_only=True,
-                                                 verbose=1, save_freq = 32)
+                                                 verbose=1, save_freq = BATCH_SIZE)
 
-history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, validation_split=0.33, callbacks=[cp_callback])
+history = model.fit(x=[images, speed], y=output, epochs=EPOCHS, batch_size=BATCH_SIZE, 
+                validation_split=0.33, callbacks=[cp_callback])
 model.save("model")
 
 print(model.metrics_names)
