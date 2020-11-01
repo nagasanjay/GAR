@@ -11,11 +11,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 from config import EPOCHS, BATCH_SIZE
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-p", "--path", help="dataset path", default="dataset")
+parser.add_argument("-p", "--path", help="dataset path", default="_dataset")
 args = parser.parse_args()
 
 DATASET_BASE_PATH = args.path
-DATASET_IMAGES = DATASET_BASE_PATH + "/"
+DATASET_IMAGES = DATASET_BASE_PATH + "/images/"
 DATASET_SIGNALS = DATASET_BASE_PATH + "/dataset.csv"
 
 images, speed = load_input(DATASET_IMAGES, DATASET_SIGNALS)
@@ -27,6 +27,7 @@ print(images.shape)
 speed = numpy.asarray(speed)
 print('normalizing by ', speed.max()- speed.min()+1)
 speed = speed/(speed.max()- speed.min()+1)
+print(speed.shape)
 output = numpy.asarray(output)
 
 model = generate(shape=(144, 144, 1))
