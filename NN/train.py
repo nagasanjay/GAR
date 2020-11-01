@@ -25,12 +25,12 @@ print(len(images[0]))
 images = numpy.asarray(images)
 print(images.shape)
 speed = numpy.asarray(speed)
+print('normalizing by ', speed.max()- speed.min()+1)
 speed = speed/(speed.max()- speed.min()+1)
-print('normalized by ', speed.max()- speed.min()+1)
 output = numpy.asarray(output)
 
 model = generate(shape=(144, 144, 1))
-model.compile(optimizer='adam', loss=['mse', 'mse'], metrics=['accuracy'], loss_weights=[1.0, 1.0])
+model.compile(optimizer='adam', loss=['mse', 'mse', 'mse'], metrics=['accuracy'], loss_weights=[1.0, 1.0, 1.0])
 
 checkpoint_path = "NN/checkpoint/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
