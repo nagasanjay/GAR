@@ -21,12 +21,12 @@ def load_output(filename):
         reader = csv.reader(file, delimiter=',')
         for row in reader:
             signals.append(list(map(lambda x : float(x), row[2:5])))
-            #i += 1
-            #if i == 10:
-                #break
+            i += 1
+            if i == 1500:
+                break
     signals = np.array(signals)
     signals[:, 1] = (signals[:, 1]+1)/2
-    signals = map(lambda x: 0.0 if x[-1] < 0.5 else 1.0, signals)
+    signals = list(map(lambda x: ([x[0], x[1], 0.0]) if x[-1] < 0.5 else ([x[0], x[1], 1.0]), signals))
     return signals
 
 
@@ -35,21 +35,21 @@ def open_and_reshape (fname):
 
     #print(fname)
     img = cv2.imread(fname)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    '''
     img = cv2.Canny(img,70,100)
-
     height, width = img.shape[:2]
 
     start_row, start_col = int(height * .5), int(0)
     end_row, end_col = int(height), int(width)
-    cropped = img[start_row:end_row , start_col:end_col]
+    img = img[start_row:end_row , start_col:end_col]
 
-    width = 144
-    height = 144 
+    width = 256
+    height = 256 
     dim = (width, height)
-    resized = cv2.resize(cropped, dim, interpolation = cv2.INTER_AREA) 
-    resized = expand_dims(resized, axis=-1)
-    return resized
+    img = cv2.resize(img, dim, interpolation = cv2.INTER_AREA) 
+    '''
+    img = expand_dims(img, axis=-1)
+    return img
     
 
 def load_input (path, filename):
@@ -61,9 +61,9 @@ def load_input (path, filename):
         for row in reader:
             speed.append(float(row[1]))
             images.append(norm_img(open_and_reshape(BASE_PATH + path + row[0])))
-            #i += 1
-            #if i == 10:
-                #break
+            i += 1
+            if i == 1500:
+                break
 
     return (images, speed)
 
@@ -71,5 +71,4 @@ def load_input (path, filename):
 def norm_img(img):
     #print(img.shape)
     img = img / 255.0
-    img = img.tolist()
-    return img
+    return img.tolist()

@@ -7,5 +7,5 @@ NN/checkpoint/*
 __pycache__/*
 model/*
 model/variables/*
-NN/__pycache__/*
+NN/__pycache__/*.pyc
 NN/checkpoint/*

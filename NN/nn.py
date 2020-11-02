@@ -56,7 +56,7 @@ def generate(shape=(144, 144, 1), option="flatten"):
     hidden2 = Dense(128, activation='relu')(hidden1)
 
     # throttle
-    output1 = Dense(3)(hidden2)
+    output1 = Dense(3, activation='sigmoid')(hidden2)
     # break
     #output2 = Dense(1, activation='sigmoid')(hidden2)
     # steering
