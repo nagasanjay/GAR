@@ -1,15 +1,17 @@
-dataset/*.png
-dataset/test/*.png
-dataset/0/*.png
-dataset/1/*.png
-dataset/2/*.png
-_dataset/*.png
-_out/*.png
-_dataset/images/*
-plot.png
-NN/checkpoint/*
-__pycache__/*
-model/*
-model/variables/*
-NN/__pycache__/*.pyc
-NN/checkpoint/*
+lateral and longitudinal control/dataset/*.png
+lateral and longitudinal control/dataset/test/*.png
+lateral and longitudinal control/dataset/0/*.png
+lateral and longitudinal control/dataset/1/*.png
+lateral and longitudinal control/dataset/2/*.png
+lateral and longitudinal control/_dataset/*.png
+lateral and longitudinal control/_out/*.png
+lateral and longitudinal control/_dataset/images/
+lateral and longitudinal control/plot.png
+lateral and longitudinal control/NN/checkpoint/
+lateral and longitudinal control/__pycache__/
+lateral and longitudinal control/model/
+lateral and longitudinal control/model/variables/
+lateral and longitudinal control/NN/__pycache__/*.pyc
+lateral and longitudinal control/NN/checkpoint/
+traffic sign detection/gtsd/
+traffic sign detection/examples/
