@@ -14,4 +14,3 @@ lateral and longitudinal control/model/variables/
 lateral and longitudinal control/NN/__pycache__/*.pyc
 lateral and longitudinal control/NN/checkpoint/
 traffic sign detection/gtsd/
-traffic sign detection/examples/
